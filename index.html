@@ -21,7 +21,7 @@
 
     // Remove trailing &
     redirectUrl = redirectUrl.replace(/&$/, '');
-
+    console.log('Redirecting to:', redirectUrl);
     // 3. Redirect to your app
     window.location.href = redirectUrl;
 
