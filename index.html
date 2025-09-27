@@ -1,34 +1,34 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-  <meta charset="UTF-8">
-  <title>Shopee OAuth Redirect</title>
+  <meta charset="utf-8">
+  <title>Shopee Redirect</title>
+  <script>
+    // Extract query params from Shopee redirect
+    const params = new URLSearchParams(window.location.search);
+    const code = params.get("code");
+    const shopId = params.get("shop_id");
+    const mainId = params.get("main_account_id");
+
+    // Build your custom scheme link for Android
+    let redirectUrl = `shopeeorders://oauth_callback?code=${code}`;
+
+    if (shopId) {
+      redirectUrl += `&shop_id=${shopId}`;
+    }
+    if (mainId) {
+      redirectUrl += `&main_account_id=${mainId}`;
+    }
+
+    // Redirect to app
+    window.location.href = redirectUrl;
+  </script>
 </head>
 <body>
-  <h3>Processing Shopee OAuth...</h3>
+  Redirecting to the app...<br>
+  If nothing happens, <a id="manualLink">click here</a>.
   <script>
-    // 1. Get query parameters from Shopee
-    const params = new URLSearchParams(window.location.search);
-    const code = params.get('code');
-    const shopId = params.get('shop_id');
-    const mainAccountId = params.get('main_account_id');
-
-    // 2. Build deep link back to your app
-    let redirectUrl = 'shopeeorders://oauth_callback?';
-    if (code) redirectUrl += `code=${code}&`;
-    if (shopId) redirectUrl += `shop_id=${shopId}&`;
-    if (mainAccountId) redirectUrl += `main_account_id=${mainAccountId}&`;
-
-    // Remove trailing &
-    redirectUrl = redirectUrl.replace(/&$/, '');
-
-    // 3. Redirect to your app
-    window.location.href = redirectUrl;
-
-    // Optional: show message if app not installed
-    setTimeout(() => {
-      document.body.innerHTML = `<p>Can't open the app? Please install it or open manually.</p>`;
-    }, 2000);
+    document.getElementById("manualLink").href = redirectUrl;
   </script>
 </body>
 </html>
